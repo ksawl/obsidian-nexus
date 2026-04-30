@@ -1,0 +1,10 @@
+{
+	"id": "obsidian-nexus",
+	"name": "Nexus",
+	"version": "0.1.0",
+	"minAppVersion": "0.15.0",
+	"description": "Semantic Knowledge Graph & Bidirectional Links. Build your own ontology inside Obsidian.",
+	"author": "Kharizma & Latreia",
+	"authorUrl": "https://github.com/ksawl",
+	"isDesktopOnly": false
+}
