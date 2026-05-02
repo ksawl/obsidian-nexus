@@ -25,7 +25,7 @@ export class SemanticSuggest extends EditorSuggest<string> {
     /**
      * Проверяет, нужно ли показывать подсказки
      */
-    onTrigger(cursor: EditorPosition, editor: Editor, file: TFile): EditorSuggestTriggerInfo | null {
+    onTrigger(cursor: EditorPosition, editor: Editor, _file: TFile): EditorSuggestTriggerInfo | null {
         if (!this.plugin.settings.enableModules.semantic) return null;
         if (!this.plugin.settings.semantic.syntaxOptions.alias) return null;
 
@@ -77,7 +77,7 @@ export class SemanticSuggest extends EditorSuggest<string> {
     /**
      * Обрабатывает выбор подсказки
      */
-    selectSuggestion(value: string, evt: MouseEvent | KeyboardEvent): void {
+    selectSuggestion(value: string, _evt: MouseEvent | KeyboardEvent): void {
         const { editor, start, end } = this.context!;
         
         // Вставляем выбранный тип. 

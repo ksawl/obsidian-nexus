@@ -55,7 +55,7 @@ export class BacklinksView extends ItemView {
     private renderEmpty() {
         const { contentEl } = this;
         contentEl.empty();
-        contentEl.createEl('div', { 
+        contentEl.createDiv({ 
             text: 'No active file selected.', 
             cls: 'nexus-backlinks-empty' 
         });
@@ -75,7 +75,7 @@ export class BacklinksView extends ItemView {
         const sourcePaths = Object.keys(backlinksMap.data || {});
 
         if (sourcePaths.length === 0) {
-            contentEl.createEl('div', { text: 'No backlinks found.', cls: 'nexus-backlinks-empty' });
+            contentEl.createDiv({ text: 'No backlinks found.', cls: 'nexus-backlinks-empty' });
             return;
         }
 
@@ -124,10 +124,10 @@ export class BacklinksView extends ItemView {
                 const row = section.createDiv({ cls: 'nexus-backlinks-row' });
                 
                 const linkInfo = row.createDiv({ cls: 'nexus-backlinks-info' });
-                linkInfo.createEl('span', { text: item.file.basename, cls: 'nexus-backlinks-filename' }).onclick = () => {
+                linkInfo.createSpan({ text: item.file.basename, cls: 'nexus-backlinks-filename' }).onclick = () => {
                     void this.app.workspace.getLeaf(false).openFile(item.file);
                 };
-                linkInfo.createEl('div', { text: item.raw, cls: 'nexus-backlinks-snippet' });
+                linkInfo.createDiv({ text: item.raw, cls: 'nexus-backlinks-snippet' });
 
                 // Кнопка для быстрой синхронизации (если еще не синхронизировано)
                 const actionBtn = row.createEl('button', { 

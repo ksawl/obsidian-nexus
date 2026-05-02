@@ -35,7 +35,7 @@ export class DataviewSuggest extends EditorSuggest<string> {
      * - Строка НЕ содержит "::" (тип уже введён)
      * - Строка НЕ содержит "[[" перед курсором (это alias-территория SemanticSuggest)
      */
-    onTrigger(cursor: EditorPosition, editor: Editor, file: TFile): EditorSuggestTriggerInfo | null {
+    onTrigger(cursor: EditorPosition, editor: Editor, _file: TFile): EditorSuggestTriggerInfo | null {
         if (!this.plugin.settings.enableModules.semantic) return null;
         if (!this.plugin.settings.semantic.syntaxOptions.dataview) return null;
 
@@ -102,7 +102,7 @@ export class DataviewSuggest extends EditorSuggest<string> {
      * Обрабатывает выбор подсказки.
      * Вставляет "type:: " и ставит курсор после пробела для ввода [[Note]].
      */
-    selectSuggestion(value: string, evt: MouseEvent | KeyboardEvent): void {
+    selectSuggestion(value: string, _evt: MouseEvent | KeyboardEvent): void {
         const { editor, start, end } = this.context!;
 
         const replacement = `${value}:: `;

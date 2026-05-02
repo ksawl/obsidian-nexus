@@ -32,7 +32,7 @@ export class SyncManager {
 	destroy() {
 		// H3 FIX: Очищаем все pending timeouts
 		for (const id of this.pendingTimeouts) {
-			clearTimeout(id);
+			activeWindow.clearTimeout(id);
 		}
 		this.pendingTimeouts = [];
 		this.syncingFiles.clear();
@@ -97,32 +97,33 @@ export class SyncManager {
 
 		try {
 			this.syncingFiles.add(targetFile.path);
-			await this.plugin.app.fileManager.processFrontMatter(targetFile, (frontmatter) => {
-				let relations = frontmatter[propertyKey] || [];
+			await this.plugin.app.fileManager.processFrontMatter(targetFile, (frontmatter: Record<string, unknown>) => {
+				let relations = frontmatter[propertyKey];
 				if (!Array.isArray(relations)) {
 					relations = typeof relations === 'string' ? [relations] : [];
 				}
+				const relationsArray = relations as string[];
 
 				for (const link of links) {
 					const relationEntry = `[[${sourceLinkText}]] (${link.type})`;
 
-					const alreadyExists = relations.some((rel: string) => 
+					const alreadyExists = relationsArray.some((rel: string) => 
 						typeof rel === 'string' && 
 						rel.includes(`[[${sourceLinkText}]]`) && rel.includes(`(${link.type})`)
 					);
 
 					if (!alreadyExists) {
-						relations.push(relationEntry);
+						relationsArray.push(relationEntry);
 					}
 				}
 
-				frontmatter[propertyKey] = relations;
+				frontmatter[propertyKey] = relationsArray;
 			});
 		} catch (e) {
 			console.error(`Nexus: Failed to sync to ${targetFile.path}`, e);
 		} finally {
 			// H3 FIX: Регистрируем timeout для очистки при выгрузке
-			const timeoutId = setTimeout(() => {
+			const timeoutId = activeWindow.setTimeout(() => {
 				this.syncingFiles.delete(targetFile.path);
 				// Удаляем ID из массива после выполнения
 				const idx = this.pendingTimeouts.indexOf(timeoutId);

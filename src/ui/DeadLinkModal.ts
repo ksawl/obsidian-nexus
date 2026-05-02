@@ -26,7 +26,7 @@ export class DeadLinkModal extends Modal {
             cls: 'nexus-modal-description'
         });
 
-        const listEl = contentEl.createEl('div', { cls: 'nexus-dead-links-list' });
+        const listEl = contentEl.createDiv({ cls: 'nexus-dead-links-list' });
 
         // Группируем по файлам для удобства
         const groupedByFile = new Map<string, DeadLinkInfo[]>();
@@ -39,7 +39,7 @@ export class DeadLinkModal extends Modal {
         }
 
         groupedByFile.forEach((links, filePath) => {
-            const fileContainer = listEl.createEl('div', { cls: 'nexus-dead-link-file-group' });
+            const fileContainer = listEl.createDiv({ cls: 'nexus-dead-link-file-group' });
             
             new Setting(fileContainer)
                 .setName(filePath)

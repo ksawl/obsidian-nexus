@@ -51,7 +51,7 @@ export class TypePickerModal extends SuggestModal<string> {
      * Обрабатывает выбор типа.
      * Определяет контекст курсора и вставляет в нужном синтаксисе.
      */
-    onChooseSuggestion(value: string, evt: MouseEvent | KeyboardEvent): void {
+    onChooseSuggestion(value: string, _evt: MouseEvent | KeyboardEvent): void {
         const cursor = this.editor.getCursor();
         const line = this.editor.getLine(cursor.line);
         const beforeCursor = line.substring(0, cursor.ch);

@@ -58,7 +58,7 @@ export class NexusSettingsTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setName('Trusted link types')
 			.setDesc('List of link types that the plugin will treat as semantic.')
-			.then(setting => {
+			.then(_setting => {
 				const cloudEl = containerEl.createDiv({ cls: 'nexus-tag-cloud' });
 				
 				const renderPills = () => {
@@ -81,7 +81,7 @@ export class NexusSettingsTab extends PluginSettingTab {
 				const inputContainer = containerEl.createDiv({ cls: 'nexus-tag-input-container' });
 				const inputEl = inputContainer.createEl('input', { 
 					cls: 'nexus-tag-input',
-					attr: { type: 'text', placeholder: 'Add new type (e.g. supports)' }
+					attr: { type: 'text', placeholder: 'Add new type (e.g. Supports)' }
 				});
 				
 				const addBtn = inputContainer.createEl('button', {
@@ -108,7 +108,7 @@ export class NexusSettingsTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName('Semantic aliases')
-			.setDesc('Enable support for [[Note|type]] syntax.')
+			.setDesc('Enable support for [[note|type]] syntax.')
 			.addToggle(toggle => toggle
 				.setValue(this.plugin.settings.semantic.syntaxOptions.alias)
 				.onChange(async (value) => {
@@ -119,7 +119,7 @@ export class NexusSettingsTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName('Dataview inline fields')
-			.setDesc('Enable support for type:: [[Note]] syntax.')
+			.setDesc('Enable support for type:: [[note]] syntax.')
 			.addToggle(toggle => toggle
 				.setValue(this.plugin.settings.semantic.syntaxOptions.dataview)
 				.onChange(async (value) => {
@@ -146,7 +146,7 @@ export class NexusSettingsTab extends PluginSettingTab {
 			.setName('Target property')
 			.setDesc('YAML property name for storing links.')
 			.addText(text => text
-				.setPlaceholder('nexus-relations')
+				.setPlaceholder('Nexus-relations')
 				.setValue(this.plugin.settings.sync.targetProperty)
 				.onChange((value) => {
 					this.plugin.settings.sync.targetProperty = value;

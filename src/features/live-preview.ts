@@ -40,7 +40,7 @@ class NexusBadgeWidget extends WidgetType {
     }
 
     toDOM() {
-        const span = document.createElement("span");
+        const span = activeDocument.createSpan();
         span.className = "nexus-badge-widget";
         span.classList.add(`nexus-type-${this.type.replace(/\s+/g, '-').toLowerCase()}`);
         if (this.isDead) span.classList.add("is-dead");
@@ -77,11 +77,11 @@ class NexusLinkWidget extends WidgetType {
     }
 
     toDOM() {
-        const container = document.createElement("span");
+        const container = activeDocument.createSpan();
         container.className = "nexus-link-replaced";
 
         // Кликабельная ссылка на целевую заметку
-        const link = document.createElement("a");
+        const link = activeDocument.createEl("a");
         link.className = "internal-link";
         link.setAttribute("data-href", this.targetPath);
         link.setAttribute("data-tooltip-position", "top");
@@ -103,7 +103,7 @@ class NexusLinkWidget extends WidgetType {
         container.appendChild(link);
 
         // Бейдж с типом связи
-        const badge = document.createElement("span");
+        const badge = activeDocument.createSpan();
         badge.className = `nexus-badge-widget nexus-type-${this.type.replace(/\s+/g, '-').toLowerCase()}`;
         if (this.isDead) badge.classList.add("is-dead");
         badge.textContent = this.type.toUpperCase();

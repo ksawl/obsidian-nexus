@@ -71,7 +71,7 @@ export default class NexusPlugin extends Plugin {
 	}
 
 	async loadSettings() {
-		const saved = await this.loadData() || {};
+		const saved = (await this.loadData() as Partial<INexusSettings>) || {};
 		this.settings = {
 			...DEFAULT_SETTINGS,
 			...saved,
