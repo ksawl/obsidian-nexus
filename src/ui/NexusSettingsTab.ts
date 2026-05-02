@@ -14,7 +14,7 @@ export class NexusSettingsTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		new Setting(containerEl).setName('Nexus: Core modules').setHeading();
+		new Setting(containerEl).setName('Core modules').setHeading();
 
 		new Setting(containerEl)
 			.setName('Semantic engine')
@@ -47,7 +47,7 @@ export class NexusSettingsTab extends PluginSettingTab {
 					await this.plugin.saveSettings();
 				}));
 
-		new Setting(containerEl).setName('Semantic settings').setHeading();
+		new Setting(containerEl).setName('Semantic engine').setHeading();
 
 		// ФИКС P18/P19: Используем Obsidian debounce и immediate = false
 		const saveDebounced = debounce(async () => {
@@ -57,7 +57,7 @@ export class NexusSettingsTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName('Trusted link types')
-			.setDesc('Список типов связей, которые плагин будет считать семантическими.')
+			.setDesc('List of link types that the plugin will treat as semantic.')
 			.then(setting => {
 				const cloudEl = containerEl.createDiv({ cls: 'nexus-tag-cloud' });
 				
@@ -81,7 +81,7 @@ export class NexusSettingsTab extends PluginSettingTab {
 				const inputContainer = containerEl.createDiv({ cls: 'nexus-tag-input-container' });
 				const inputEl = inputContainer.createEl('input', { 
 					cls: 'nexus-tag-input',
-					attr: { type: 'text', placeholder: 'Add new type (e.g. supports)...' }
+					attr: { type: 'text', placeholder: 'Add new type (e.g. supports)' }
 				});
 				
 				const addBtn = inputContainer.createEl('button', {
@@ -108,7 +108,7 @@ export class NexusSettingsTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName('Semantic aliases')
-			.setDesc('Включить поддержку синтаксиса [[Note|type]].')
+			.setDesc('Enable support for [[Note|type]] syntax.')
 			.addToggle(toggle => toggle
 				.setValue(this.plugin.settings.semantic.syntaxOptions.alias)
 				.onChange(async (value) => {
@@ -119,7 +119,7 @@ export class NexusSettingsTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName('Dataview inline fields')
-			.setDesc('Включить поддержку синтаксиса type:: [[Note]].')
+			.setDesc('Enable support for type:: [[Note]] syntax.')
 			.addToggle(toggle => toggle
 				.setValue(this.plugin.settings.semantic.syntaxOptions.dataview)
 				.onChange(async (value) => {
@@ -132,7 +132,7 @@ export class NexusSettingsTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName('Sync mode')
-			.setDesc('Куда записывать ответные двусторонние связи.')
+			.setDesc('Where to write reciprocal bidirectional links.')
 			.addDropdown(dropdown => dropdown
 				.addOption('properties', 'YAML properties')
 				.addOption('off', 'Disabled')
@@ -144,7 +144,7 @@ export class NexusSettingsTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName('Target property')
-			.setDesc('Имя ключа в YAML для хранения связей.')
+			.setDesc('YAML property name for storing links.')
 			.addText(text => text
 				.setPlaceholder('nexus-relations')
 				.setValue(this.plugin.settings.sync.targetProperty)

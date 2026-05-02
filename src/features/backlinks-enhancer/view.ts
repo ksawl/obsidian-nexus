@@ -26,7 +26,7 @@ export class BacklinksView extends ItemView {
     }
 
     getDisplayText(): string {
-        return 'Nexus Backlinks';
+        return 'Backlinks';
     }
 
     getIcon(): string {

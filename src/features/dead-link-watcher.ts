@@ -74,18 +74,18 @@ export class DeadLinkWatcher {
 	registerCommands() {
 		this.plugin.addCommand({
 			id: 'scan-dead-links',
-			name: 'Scan Vault for dead semantic links',
+			name: 'Scan vault for dead semantic links',
 			callback: async () => {
 				if (!this.plugin.settings.enableModules.deadLinks) {
-					new Notice('Nexus: Dead link watcher module is disabled.');
+					new Notice('Dead link watcher module is disabled.');
 					return;
 				}
 				
-				new Notice('Nexus: Scanning for dead semantic links...');
+				new Notice('Scanning for dead semantic links...');
 				const results = await this.scanAll();
 				
 				if (results.length === 0) {
-					new Notice('Nexus: No dead semantic links found! Your graph is healthy.');
+					new Notice('No dead semantic links found. Your graph is healthy.');
 				} else {
 					// L7 FIX: try/catch на dynamic import
 					try {
@@ -94,7 +94,7 @@ export class DeadLinkWatcher {
 					} catch (e) {
 						console.error('Nexus: Failed to open Dead Link Modal', e);
 					}
-					new Notice(`Nexus: Found ${results.length} dead semantic links.`);
+					new Notice(`Found ${results.length} dead semantic links.`);
 				}
 			}
 		});

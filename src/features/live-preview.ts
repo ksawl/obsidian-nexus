@@ -10,7 +10,7 @@ import { RangeSetBuilder, StateEffect } from "@codemirror/state";
 import { EventRef, editorLivePreviewField, TFile } from "obsidian";
 import NexusPlugin from "../main";
 import { ParserLogic } from "./semantic-engine/logic";
-import { INexusLink, LinkSyntax } from "../core/types";
+import { LinkSyntax } from "../core/types";
 
 interface WorkspaceWithCustomEvents {
     on(name: string, callback: () => void, ctx?: unknown): EventRef;
@@ -164,7 +164,7 @@ export const livePreviewExtension = (plugin: NexusPlugin) => {
                 this.view.dispatch({
                     effects: nexusRefreshEffect.of(null)
                 });
-            }) as EventRef;
+            });
 
             // Прямой DOM listener для hover preview на нативных ссылках (dataview-синтаксис)
             this.view.dom.addEventListener('mouseover', this.handleHoverPreview);

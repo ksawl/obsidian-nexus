@@ -22,7 +22,7 @@ export class BacklinksEnhancerModule {
         });
 
         this.plugin.addRibbonIcon('link-2', 'Backlinks', () => {
-            this.activateView();
+            void this.activateView();
         });
     }
 
@@ -45,7 +45,7 @@ export class BacklinksEnhancerModule {
         }
 
         if (leaf) {
-            workspace.revealLeaf(leaf);
+            void workspace.revealLeaf(leaf);
         }
     }
 }
