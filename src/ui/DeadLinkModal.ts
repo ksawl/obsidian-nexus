@@ -20,7 +20,7 @@ export class DeadLinkModal extends Modal {
         const { contentEl } = this;
         contentEl.empty();
 
-        contentEl.createEl('h2', { text: 'Nexus: Dead Semantic Links Report' });
+        contentEl.createEl('h2', { text: 'Dead semantic links report' });
         contentEl.createEl('p', { 
             text: `Found ${this.results.length} dead semantic links. Click on a file name to open it.`,
             cls: 'nexus-modal-description'
@@ -45,7 +45,7 @@ export class DeadLinkModal extends Modal {
                 .setName(filePath)
                 .setDesc(`${links.length} dead link(s)`)
                 .addButton(btn => {
-                    btn.setButtonText('Open File')
+                    btn.setButtonText('Open file')
                         .onClick(() => {
                             const file = this.app.vault.getAbstractFileByPath(filePath);
                             if (file instanceof TFile) {

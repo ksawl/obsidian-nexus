@@ -34,7 +34,7 @@ export class SemanticSuggest extends EditorSuggest<string> {
 
         // Ищем открытую вики-ссылку с символом пайпа перед курсором: [[Note|
         // Регулярка: [[ , затем любые символы кроме [ и ], затем | , затем любые символы до конца подстроки
-        const match = sub.match(/\[\[([^\[\]]+)\|([^\[\]]*)$/);
+        const match = sub.match(/\[\[([^[\]]+)\|([^[\]]*)$/);
         
         if (match) {
             return {

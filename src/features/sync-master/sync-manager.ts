@@ -1,7 +1,7 @@
 import { TFile } from 'obsidian';
 import NexusPlugin from '../../main';
 import { ParserLogic } from '../semantic-engine/logic';
-import { INexusLink } from '../../core/types';
+import { INexusLink, LinkSyntax } from '../../core/types';
 
 export class SyncManager {
 	plugin: NexusPlugin;
@@ -21,7 +21,7 @@ export class SyncManager {
 			this.plugin.app.metadataCache.on('changed', (file) => {
 				if (!this.plugin.settings.enableModules.sync) return;
 				if (this.syncingFiles.has(file.path)) return;
-				this.handleFileChange(file);
+				void this.handleFileChange(file);
 			})
 		);
 	}
@@ -48,7 +48,7 @@ export class SyncManager {
 		let content: string;
 		try {
 			content = await this.plugin.app.vault.read(file);
-		} catch (e) {
+		} catch {
 			// Файл был удалён или переименован — просто пропускаем
 			return;
 		}
@@ -140,7 +140,7 @@ export class SyncManager {
 			sourcePath,
 			targetPath,
 			type,
-			syntax: 'SemanticAlias' as any,
+			syntax: LinkSyntax.SemanticAlias,
 			position: { start: 0, end: 0 },
 			rawValue: ''
 		}];

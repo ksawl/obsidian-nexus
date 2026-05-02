@@ -16,12 +16,12 @@ export class BacklinksEnhancerModule {
         );
 
         this.plugin.addCommand({
-            id: 'open-nexus-backlinks',
-            name: 'Open Nexus Backlinks',
+            id: 'open-backlinks',
+            name: 'Open backlinks',
             callback: () => this.activateView()
         });
 
-        this.plugin.addRibbonIcon('link-2', 'Nexus Backlinks', () => {
+        this.plugin.addRibbonIcon('link-2', 'Backlinks', () => {
             this.activateView();
         });
     }

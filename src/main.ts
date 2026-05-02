@@ -65,7 +65,7 @@ export default class NexusPlugin extends Plugin {
 
 	}
 
-	async onunload() {
+	onunload() {
 		// H3 FIX: Чистим ресурсы SyncManager (pending timeouts)
 		this.syncManager.destroy();
 	}

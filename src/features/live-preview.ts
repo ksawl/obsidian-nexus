@@ -12,6 +12,15 @@ import NexusPlugin from "../main";
 import { ParserLogic } from "./semantic-engine/logic";
 import { INexusLink, LinkSyntax } from "../core/types";
 
+interface WorkspaceWithCustomEvents {
+    on(name: string, callback: () => void, ctx?: unknown): EventRef;
+}
+
+interface MarkdownLeafView {
+    editor?: { cm: EditorView };
+    file?: TFile | null;
+}
+
 /**
  * StateEffect для явного сигнала пересборки декораций при смене настроек.
  * Это документированный и стабильный способ в CM6 API.
@@ -88,7 +97,7 @@ class NexusLinkWidget extends WidgetType {
 
         // Hover → превью содержимого заметки (Page Preview)
         link.addEventListener("mouseover", (e) => {
-            this.triggerHover(e as MouseEvent, link, this.targetPath, this.sourcePath);
+            this.triggerHover(e, link, this.targetPath, this.sourcePath);
         });
 
         container.appendChild(link);
@@ -123,7 +132,7 @@ class NexusLinkWidget extends WidgetType {
 export const livePreviewExtension = (plugin: NexusPlugin) => {
     // Функция навигации — передаётся в виджет через замыкание
     const openLink = (path: string, sourcePath: string) => {
-        plugin.app.workspace.openLinkText(path, sourcePath);
+        void plugin.app.workspace.openLinkText(path, sourcePath);
     };
 
     // Функция hover preview — триггерит нативный Page Preview Obsidian.
@@ -149,7 +158,7 @@ export const livePreviewExtension = (plugin: NexusPlugin) => {
             this.decorations = this.buildDecorations(view);
             
             // Слушаем nexus:refresh — теперь диспатчим StateEffect для гарантированного rebuild
-            this.eventRef = (plugin.app.workspace as any).on('nexus:refresh', () => {
+            this.eventRef = (plugin.app.workspace as unknown as WorkspaceWithCustomEvents).on('nexus:refresh', () => {
                 // StateEffect — документированный способ форсировать пересборку декораций.
                 // CM6 гарантирует что после этого вызовется update() с effects в транзакции.
                 this.view.dispatch({
@@ -236,9 +245,9 @@ export const livePreviewExtension = (plugin: NexusPlugin) => {
         private getSourcePath(view: EditorView): string {
             let sourcePath = '';
             plugin.app.workspace.iterateAllLeaves(leaf => {
-                const leafView = leaf.view as any;
+                const leafView = leaf.view as MarkdownLeafView;
                 if (leafView?.editor?.cm === view) {
-                    const file = (leaf.view as any).file as TFile | null;
+                    const file = (leaf.view as MarkdownLeafView).file;
                     if (file) sourcePath = file.path;
                 }
             });

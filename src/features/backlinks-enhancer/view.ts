@@ -1,14 +1,16 @@
 import { 
     ItemView, 
     WorkspaceLeaf, 
-    TFile, 
-    LinkCache, 
-    prepareFuzzySearch 
+    TFile
 } from 'obsidian';
 import NexusPlugin from '../../main';
 import { ParserLogic } from '../semantic-engine/logic';
 
 export const VIEW_TYPE_NEXUS_BACKLINKS = 'nexus-backlinks-view';
+
+interface MetadataCacheWithBacklinks {
+    getBacklinksForFile(file: TFile): { data: Record<string, unknown> };
+}
 
 export class BacklinksView extends ItemView {
     plugin: NexusPlugin;
@@ -31,14 +33,15 @@ export class BacklinksView extends ItemView {
         return 'link-2';
     }
 
-    async onOpen() {
+    onOpen(): Promise<void> {
         this.registerEvent(
             this.app.workspace.on('active-leaf-change', () => this.update())
         );
         this.update();
+        return Promise.resolve();
     }
 
-    async update() {
+    update() {
         const activeFile = this.app.workspace.getActiveFile();
         if (!activeFile || activeFile === this.currentFile) {
             if (!activeFile) this.renderEmpty();
@@ -46,7 +49,7 @@ export class BacklinksView extends ItemView {
         }
 
         this.currentFile = activeFile;
-        this.renderBacklinks();
+        void this.renderBacklinks();
     }
 
     private renderEmpty() {
@@ -68,7 +71,7 @@ export class BacklinksView extends ItemView {
         contentEl.createEl('h3', { text: `Backlinks for: ${this.currentFile.basename}` });
 
         // Достаем все бэклинк из кэша
-        const backlinksMap = (this.app.metadataCache as any).getBacklinksForFile(this.currentFile);
+        const backlinksMap = (this.app.metadataCache as unknown as MetadataCacheWithBacklinks).getBacklinksForFile(this.currentFile);
         const sourcePaths = Object.keys(backlinksMap.data || {});
 
         if (sourcePaths.length === 0) {
@@ -122,7 +125,7 @@ export class BacklinksView extends ItemView {
                 
                 const linkInfo = row.createDiv({ cls: 'nexus-backlinks-info' });
                 linkInfo.createEl('span', { text: item.file.basename, cls: 'nexus-backlinks-filename' }).onclick = () => {
-                    this.app.workspace.getLeaf(false).openFile(item.file);
+                    void this.app.workspace.getLeaf(false).openFile(item.file);
                 };
                 linkInfo.createEl('div', { text: item.raw, cls: 'nexus-backlinks-snippet' });
 
@@ -132,7 +135,7 @@ export class BacklinksView extends ItemView {
                     cls: 'nexus-backlinks-action-btn' 
                 });
                 actionBtn.onclick = () => {
-                    this.plugin.syncManager.syncManual(
+                    void this.plugin.syncManager.syncManual(
                         this.currentFile!.path,
                         item.file.path,
                         item.type

@@ -14,11 +14,11 @@ export class NexusSettingsTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		containerEl.createEl('h2', { text: 'Nexus: Core Modules' });
+		new Setting(containerEl).setName('Nexus: Core modules').setHeading();
 
 		new Setting(containerEl)
-			.setName('Semantic Engine')
-			.setDesc('Enable/Disable link visualization and parsing.')
+			.setName('Semantic engine')
+			.setDesc('Enable/disable link visualization and parsing.')
 			.addToggle(toggle => toggle
 				.setValue(this.plugin.settings.enableModules.semantic)
 				.onChange(async (value) => {
@@ -28,8 +28,8 @@ export class NexusSettingsTab extends PluginSettingTab {
 				}));
 
 		new Setting(containerEl)
-			.setName('Sync Master')
-			.setDesc('Enable/Disable bidirectional link synchronization.')
+			.setName('Sync master')
+			.setDesc('Enable/disable bidirectional link synchronization.')
 			.addToggle(toggle => toggle
 				.setValue(this.plugin.settings.enableModules.sync)
 				.onChange(async (value) => {
@@ -38,8 +38,8 @@ export class NexusSettingsTab extends PluginSettingTab {
 				}));
 
 		new Setting(containerEl)
-			.setName('Dead Link Watcher')
-			.setDesc('Enable/Disable scanning for broken semantic links.')
+			.setName('Dead link watcher')
+			.setDesc('Enable/disable scanning for broken semantic links.')
 			.addToggle(toggle => toggle
 				.setValue(this.plugin.settings.enableModules.deadLinks)
 				.onChange(async (value) => {
@@ -47,7 +47,7 @@ export class NexusSettingsTab extends PluginSettingTab {
 					await this.plugin.saveSettings();
 				}));
 
-		containerEl.createEl('h2', { text: 'Semantic Settings' });
+		new Setting(containerEl).setName('Semantic settings').setHeading();
 
 		// ФИКС P18/P19: Используем Obsidian debounce и immediate = false
 		const saveDebounced = debounce(async () => {
@@ -56,7 +56,7 @@ export class NexusSettingsTab extends PluginSettingTab {
 		}, 500, false);
 
 		new Setting(containerEl)
-			.setName('Trusted Link Types')
+			.setName('Trusted link types')
 			.setDesc('Список типов связей, которые плагин будет считать семантическими.')
 			.then(setting => {
 				const cloudEl = containerEl.createDiv({ cls: 'nexus-tag-cloud' });
@@ -102,12 +102,12 @@ export class NexusSettingsTab extends PluginSettingTab {
 
 				addBtn.onclick = handleAdd;
 				inputEl.onkeydown = (e) => {
-					if (e.key === 'Enter') handleAdd();
+					if (e.key === 'Enter') void handleAdd();
 				};
 			});
 
 		new Setting(containerEl)
-			.setName('Semantic Aliases')
+			.setName('Semantic aliases')
 			.setDesc('Включить поддержку синтаксиса [[Note|type]].')
 			.addToggle(toggle => toggle
 				.setValue(this.plugin.settings.semantic.syntaxOptions.alias)
@@ -118,7 +118,7 @@ export class NexusSettingsTab extends PluginSettingTab {
 				}));
 
 		new Setting(containerEl)
-			.setName('Dataview Inline Fields')
+			.setName('Dataview inline fields')
 			.setDesc('Включить поддержку синтаксиса type:: [[Note]].')
 			.addToggle(toggle => toggle
 				.setValue(this.plugin.settings.semantic.syntaxOptions.dataview)
@@ -128,13 +128,13 @@ export class NexusSettingsTab extends PluginSettingTab {
 					this.plugin.refresh();
 				}));
 
-		containerEl.createEl('h3', { text: 'Synchronization (Sync Master)' });
+		new Setting(containerEl).setName('Synchronization (sync master)').setHeading();
 
 		new Setting(containerEl)
-			.setName('Sync Mode')
+			.setName('Sync mode')
 			.setDesc('Куда записывать ответные двусторонние связи.')
 			.addDropdown(dropdown => dropdown
-				.addOption('properties', 'YAML Properties')
+				.addOption('properties', 'YAML properties')
 				.addOption('off', 'Disabled')
 				.setValue(this.plugin.settings.sync.mode)
 				.onChange(async (value) => {
@@ -143,12 +143,12 @@ export class NexusSettingsTab extends PluginSettingTab {
 				}));
 
 		new Setting(containerEl)
-			.setName('Target Property')
+			.setName('Target property')
 			.setDesc('Имя ключа в YAML для хранения связей.')
 			.addText(text => text
 				.setPlaceholder('nexus-relations')
 				.setValue(this.plugin.settings.sync.targetProperty)
-				.onChange(async (value) => {
+				.onChange((value) => {
 					this.plugin.settings.sync.targetProperty = value;
 					saveDebounced();
 				}));

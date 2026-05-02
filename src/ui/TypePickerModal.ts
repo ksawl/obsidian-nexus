@@ -2,9 +2,7 @@ import {
     App,
     Editor,
     SuggestModal,
-    prepareFuzzySearch,
-    renderResults,
-    SearchResult
+    prepareFuzzySearch
 } from 'obsidian';
 import NexusPlugin from '../main';
 

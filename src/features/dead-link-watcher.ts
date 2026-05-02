@@ -77,7 +77,7 @@ export class DeadLinkWatcher {
 			name: 'Scan Vault for dead semantic links',
 			callback: async () => {
 				if (!this.plugin.settings.enableModules.deadLinks) {
-					new Notice('Nexus: Dead Link Watcher module is disabled.');
+					new Notice('Nexus: Dead link watcher module is disabled.');
 					return;
 				}
 				
