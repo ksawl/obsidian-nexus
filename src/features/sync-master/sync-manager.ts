@@ -7,7 +7,7 @@ export class SyncManager {
 	plugin: NexusPlugin;
 	private syncingFiles = new Set<string>();
 	// H3 FIX: Храним ID таймеров для очистки при выгрузке
-	private pendingTimeouts: ReturnType<typeof setTimeout>[] = [];
+	private pendingTimeouts: number[] = [];
 
 	constructor(plugin: NexusPlugin) {
 		this.plugin = plugin;
